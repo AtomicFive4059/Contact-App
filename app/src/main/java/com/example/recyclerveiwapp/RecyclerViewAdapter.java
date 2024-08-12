@@ -8,6 +8,8 @@ import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -26,7 +28,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     Context context;
     ArrayList<ContactModel> modelArrayList;
     private ViewHolder holder;
-    private int position;
+    private int lastposition = -1;
 
     public RecyclerViewAdapter(Context context, ArrayList<ContactModel> modelArrayList) {
         this.context = context;
@@ -125,6 +127,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             }
         });
 
+        recyclerViewAnimation(holder.itemView,position);
+
     }
 
     @Override
@@ -148,5 +152,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
              img = itemView.findViewById(R.id.profileImg);
              rootLinearLayout = itemView.findViewById(R.id.rootLinearLayout);
         }
+    }
+
+    public void recyclerViewAnimation(View viewToAnimate,int position){
+        if (position>lastposition){
+            Animation animation = AnimationUtils.loadAnimation(context, android.R.anim.slide_in_left);
+            viewToAnimate.startAnimation(animation);
+            lastposition = position;
+        }
+
     }
 }
